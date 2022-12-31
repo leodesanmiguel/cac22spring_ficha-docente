@@ -76,7 +76,6 @@ public class UserController {
         return new ResponseEntity<>(userService.editarUser(usr), HttpStatus.ACCEPTED);
     }
     @PostMapping(value = "/crear")
-
     public ResponseEntity<?> createUser(@Valid @RequestBody UserDto userDto) {
         return new ResponseEntity<>(userService.createUser(userDto), HttpStatus.OK);
     }

@@ -18,18 +18,18 @@ public class StaffController {
 
     @PostMapping("/crear")
     @ResponseStatus(HttpStatus.CREATED)
-    public Staff saveUnStaff(@RequestBody Staff docente){
+    public Staff saveUnStaff(@RequestBody Staff docente) {
         return serviceDocente.saveStaff(docente);
     }
 
     @GetMapping("/listado")
-    public List<Staff> listOfStaff(){
-        return serviceDocente.getAllStaff();
+    public ResponseEntity<?> listOfStaff() {
+        return new ResponseEntity<>(serviceDocente.getAllStaff(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Staff> getUnStaffId(@PathVariable("id") Long staffId,
-                                               @RequestBody Staff docente){
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<Staff> getUnStaffId(@RequestParam Long staffId,
+                                              @RequestBody Staff docente) {
         // Busca el docente por el id. si lo encuentra Pone OK. Sino pone No encorntrado
         return serviceDocente.getStaffById(staffId)
                 .map(ResponseEntity::ok)
@@ -37,8 +37,8 @@ public class StaffController {
     }
 
     @GetMapping("/{dni}")
-    public ResponseEntity<Staff> getUnStaffDni(@PathVariable("dni") Integer staffDni,
-                                            @RequestBody Staff docente){
+    public ResponseEntity<Staff> getUnStaffDni(@RequestParam Integer staffDni,
+                                               @RequestBody Staff docente) {
         // Busca el docente por el id. si lo encuentra Pone OK. Sino pone No encorntrado
         return serviceDocente.getStaffByDni(staffDni)
                 .map(ResponseEntity::ok)
@@ -46,8 +46,8 @@ public class StaffController {
     }
 
     @GetMapping("/{cuit}")
-    public ResponseEntity<Staff> getUnStaffCuit(@PathVariable("cuit") Long staffCuit,
-                                               @RequestBody Staff docente){
+    public ResponseEntity<Staff> getUnStaffCuit(@RequestParam Long staffCuit,
+                                                @RequestBody Staff docente) {
         // Busca el docente por el id. si lo encuentra Pone OK. Sino pone No encorntrado
         return serviceDocente.getStaffByCuit(staffCuit)
                 .map(ResponseEntity::ok)
@@ -56,7 +56,7 @@ public class StaffController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Staff> updateUnStaff(@PathVariable("id") Long staffId,
-                                               @RequestBody Staff docente){
+                                               @RequestBody Staff docente) {
         // solo puede actualizar nombre, apellido fecha de nacimiento y sexo.
         return serviceDocente.getStaffById(staffId)
                 .map(docenteGuardado -> {
@@ -66,13 +66,13 @@ public class StaffController {
                     docenteGuardado.setSex(docente.getSex());
                     Staff docenteActualizado = serviceDocente.updateStaff(docenteGuardado);
                     return new ResponseEntity<>(docenteActualizado, HttpStatus.OK);
-                }).orElseGet(()-> ResponseEntity.notFound().build());
-   }
+                }).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
-   @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteUnStaff(@PathVariable("id") Long staffId){
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteUnStaff(@PathVariable("id") Long staffId) {
         serviceDocente.deleteStaff(staffId);
         return new ResponseEntity<String>("El docente fue eliminado exitosamente", HttpStatus.OK);
-   }
+    }
 
 }

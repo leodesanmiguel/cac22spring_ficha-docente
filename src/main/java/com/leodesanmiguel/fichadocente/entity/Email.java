@@ -18,11 +18,11 @@ public class Email {
     @Column(name = "id_email")
     private Long id;
 
-    @Column(name = "mobile", nullable = false, length = 20)
-    private String mobile;
+    @Column(name = "principal", nullable = false, length = 40)
+    private String principal;
 
-    @Column(name = "tel_alternative", nullable = false, length = 20)
-    private String telAlternative;
+    @Column(name = "alternative", length = 40)
+    private String alternative;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_staff_fk",  referencedColumnName = "id_staff", nullable = false)

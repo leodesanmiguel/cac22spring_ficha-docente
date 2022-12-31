@@ -6,11 +6,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
+
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
-
+@ActiveProfiles("test")
 @DataJpaTest
+@Sql({"/schema_test.sql", "data_test.sql"})
 public class StaffRepositoryTest {
     // Test para probar la persistencia.
 
@@ -22,10 +26,10 @@ public class StaffRepositoryTest {
     @BeforeEach
     void setup() {
         profesor = Staff.builder()
-                .lastName("Ramirez")
-                .name("Alberto")
-                .dni(25874965)
-                .cuit(278749652)
+                .lastName("Rodriguez")
+                .name("Sebastan")
+                .dni(32165487)
+
                 .sex('F')
                 .build();
     }
@@ -36,7 +40,7 @@ public class StaffRepositoryTest {
         // Condicion --> given
         Staff docente = Staff.builder()
                 .dni(2356987)
-                .cuit(2023569874)
+
                 .sex('M')
                 .lastName("Lopez")
                 .name("José")
@@ -57,7 +61,7 @@ public class StaffRepositoryTest {
         // given
         Staff profe = Staff.builder()
                 .dni(12345678)
-                .cuit(2012345684)
+
                 .sex('M')
                 .lastName("Rizutti")
                 .name("Adalfredo")
